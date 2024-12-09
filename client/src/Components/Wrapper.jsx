@@ -7,12 +7,12 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Wrapper = () => {
   return (
-    <div>
+    <>
       <Header />
       <ToastContainer />
       <Outlet />
       <Footer />
-    </div>
+    </>
   );
 };
 export default Wrapper;

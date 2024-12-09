@@ -4,6 +4,7 @@ import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import Wrapper from "./Components/Wrapper";
 import HomePage from "./Components/HomePage";
+import ValidateOTP from "./Components/ValidateOTP";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
       {
         path: "signup",
         element: <Signup />,
+      },
+      {
+        path: "validateotp",
+        element: <ValidateOTP />,
       },
     ],
   },
