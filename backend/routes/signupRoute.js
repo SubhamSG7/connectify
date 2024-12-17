@@ -11,11 +11,11 @@ const router = Router();
 
 router.post("/", async (req, res) => {
   const incomingData = req.body;
-
   try {
     const newUser = new User(incomingData);
     const email = incomingData.email;
     const otp = otpGenerator();
+    await newUser.save();
     const otpInfo = await sendOTP(email, otp);
     if (!otpInfo) {
       return res
@@ -41,15 +41,16 @@ router.post("/", async (req, res) => {
       maxAge: 1 * 60 * 60 * 1000,
     });
 
-    await newUser.save();
-
     return res.status(200).json({ message: "Registered Successfully" });
   } catch (error) {
     console.error("Error during user registration:", error);
     if (error.name === "ValidationError") {
       return res
         .status(400)
-        .json({ message: "Invalid input data.", details: error.errors });
+        .json({
+          message: "Please Check all the fields.",
+          details: error.errors,
+        });
     }
     res
       .status(500)

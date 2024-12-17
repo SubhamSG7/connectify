@@ -8,7 +8,7 @@ const countryCodes = ["+61", "+1", "+91", "+44"];
 const userSchema = mongoose.Schema({
   name: {
     type: String,
-    require: [true, "Name is required"],
+    required: [true, "Name is required"],
     match: [
       nameRegex,
       `Name should contain at least 3 characters and no special characters are allowed`,
@@ -16,13 +16,13 @@ const userSchema = mongoose.Schema({
   },
   email: {
     type: String,
-    require: [true, "email is required"],
+    required: [true, "email is required"],
     unique: true,
     match: [emailRegex, `Invalid email _id`],
   },
   username: {
     type: String,
-    require: [true, "username is required"],
+    required: [true, "username is required"],
     unique: true,
     match: [
       nameRegex,
@@ -31,12 +31,12 @@ const userSchema = mongoose.Schema({
   },
   mobile: {
     type: String,
-    require: [true, "mobile number is required"],
+    required: [true, "mobile number is required"],
     match: [mobileRegex, `Mobile Number Invalid`],
   },
   countrycode: {
     type: String,
-    require: [true, "country-code required"],
+    required: [true, "country-code required"],
     validate: {
       validator: function (value) {
         return countryCodes.includes(value);
@@ -46,7 +46,7 @@ const userSchema = mongoose.Schema({
   },
   password: {
     type: String,
-    require: [true, "password is required"],
+    required: [true, "password is required"],
     match: [
       /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{7,}$/,
       "Password Should be minimum 7 characters with alphaNumeric values ",
@@ -58,6 +58,15 @@ const userSchema = mongoose.Schema({
     default: false,
   },
 });
+userSchema.methods.comparePassword = async function (inputPassword) {
+  try {
+    return await argon2.verify(this.password, inputPassword);
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
 userSchema.plugin(uniqueValidator, {
   message: "{PATH} must be unique. '{VALUE}' is already taken.",
 });
@@ -71,6 +80,7 @@ userSchema.pre("save", async function (next) {
     next(error);
   }
 });
+
 const User = mongoose.model("Users", userSchema);
 
 export default User;

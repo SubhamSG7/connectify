@@ -4,6 +4,10 @@ import mongoConnect from "./connections/mongo.js";
 import signupRoute from "./routes/signupRoute.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import loginRoute from "./routes/loginRoutes.js";
+import authRoute from "./routes/authRoute.js";
+import chatRoute from "./routes/chatRoute.js";
+
 const port = process.env.PORT;
 const clientURL = process.env.clientURL;
 const app = express();
@@ -27,6 +31,9 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use("/api/signup", signupRoute);
+app.use("/api/login", loginRoute);
+app.use("/api/checkauth", authRoute);
+app.use("/api/chat", chatRoute);
 
 app.get("/", (req, res) => {
   res.send("Hey there, welcome to Connectify!");

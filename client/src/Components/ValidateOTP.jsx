@@ -68,8 +68,9 @@ function ValidateOTP() {
   }
 
   return (
-    <div className="h-[70vh] flex flex-col items-center">
+    <div className="h-[70vh] flex flex-col items-center justify-center">
       <form onSubmit={handleSubmit} className="flex flex-col items-center">
+        <h3 className="text-center text-2xl text-gray-700">Validate OTP</h3>
         <div className="flex">
           {[...Array(4)].map((_, index) => (
             <input
@@ -86,7 +87,7 @@ function ValidateOTP() {
         </div>
         <button
           type="submit"
-          className="mt-4 px-4 py-2 bg-cyan-900 text-white rounded"
+          className="mt-4 px-4 py-2 text-xl bg-cyan-900 text-white rounded hover:bg-orange-900"
           disabled={loading}
         >
           {loading ? "Submitting..." : "Submit"}

@@ -59,7 +59,7 @@ const SignupSlice = createSlice({
         clearInfo();
       })
       .addCase(sendSignupData.rejected, (state, action) => {
-        console.log(action.payload);
+        state.loading = false;
         state.error = action.payload;
       });
   },
