@@ -5,7 +5,7 @@ const secretKey = process.env.tokenSecret;
 
 export function generateToken(data) {
   try {
-    const token = jwt.sign(data, secretKey, { expiresIn: "1h" });
+    const token = jwt.sign(data, secretKey, { expiresIn: "2h" });
     return token;
   } catch (error) {
     console.error("Error generating token:", error);

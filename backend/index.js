@@ -7,6 +7,9 @@ import cookieParser from "cookie-parser";
 import loginRoute from "./routes/loginRoutes.js";
 import authRoute from "./routes/authRoute.js";
 import chatRoute from "./routes/chatRoute.js";
+import { wsconnect } from "./connections/websocket.js";
+
+import wshandshake from "./routes/wshandshake.js";
 
 const port = process.env.PORT;
 const clientURL = process.env.clientURL;
@@ -14,6 +17,7 @@ const app = express();
 
 /// db connection
 mongoConnect();
+
 app.use(express.json());
 app.use(cookieParser());
 const corsOptions = {
@@ -29,7 +33,10 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+// ws http connection
 
+wsconnect();
+app.use("/api/ws/handshake", wshandshake);
 app.use("/api/signup", signupRoute);
 app.use("/api/login", loginRoute);
 app.use("/api/checkauth", authRoute);
